@@ -21,17 +21,25 @@ function App() {
     setWeeklyRecipes(a);
   }
 
-  console.log(weeklyRecipes);
-
   // handle input change
   function handleChange(event) {
     setNumRecipes(event.target.value);
   }
 
+  // Process weekly recipes to get a count of all ingredients
+  const allIngredients = weeklyRecipes.flatMap((recipe) => recipe.ingredients);
+  const ingredientCount = allIngredients.reduce((acc, ingredient) => {
+    acc[ingredient] = (acc[ingredient] || 0) + 1;
+    return acc;
+  }, {});
+
   return (
     <div className="App">
       <h1>Veggie Vibes</h1>
       <h2>Meals</h2>
+      <ul>
+        {weeklyRecipes.map((a, i) => <li key={i}>{a.name}</li>)}
+      </ul>
       <div>
         <input
           type="number"
@@ -43,6 +51,13 @@ function App() {
         <button onClick={random}>Generate Shopping List</button>
       </div>
       <h2>Shopping List</h2>
+      <ul>
+        {Object.entries(ingredientCount).map(([ingredient, count]) => (
+          <li key={ingredient}>
+            {ingredient} - {count}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
