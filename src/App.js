@@ -1,4 +1,4 @@
-import recipes from "./recipes";
+import { recipes, aisles } from "./recipes";
 import { useState } from "react";
 
 function App() {
@@ -22,7 +22,6 @@ function App() {
     return arr[random];
   }
 
-  console.log(weeklyRecipes);
 
   return (
     <div className="App">
@@ -46,9 +45,15 @@ function App() {
       <h2>Shopping List</h2>
       <ul>
         {weeklyRecipes.map((recipe) =>
-          recipe.ingredients.map((ingredients, i) => (
-            <li key={i}>{ingredients}</li>
-          ))
+          recipe.ingredients.map((ingredient, i) => {
+            // console.log(ingredient);
+            if (aisles.freshProduce.includes(ingredient)) {
+              console.log("success");
+            } else {
+              console.log("fail")
+            }
+            return <li key={i}>{ingredient}</li>;
+          })
         )}
       </ul>
     </div>
