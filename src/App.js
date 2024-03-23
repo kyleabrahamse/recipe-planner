@@ -28,7 +28,11 @@ function App() {
     <div className="App">
       <h1>Veggie Vibes</h1>
       <h2>Meals</h2>
-      <ul></ul>
+      <ul>
+        {weeklyRecipes.map((recipeName, i) => (
+          <li key={i}>{recipeName.name}</li>
+        ))}
+      </ul>
       <div>
         <input
           type="number"
@@ -41,9 +45,11 @@ function App() {
       </div>
       <h2>Shopping List</h2>
       <ul>
-        {weeklyRecipes.map((recipe, i) => (
-          <li key={i}>{recipe.ingredients}</li>
-        ))}
+        {weeklyRecipes.map((recipe) =>
+          recipe.ingredients.map((ingredients, i) => (
+            <li key={i}>{ingredients}</li>
+          ))
+        )}
       </ul>
     </div>
   );
