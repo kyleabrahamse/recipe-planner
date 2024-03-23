@@ -581,7 +581,7 @@ let recipes = [
       ingredients: [
         "onion(red)",
         "butternut(320g)",
-        "punkin seeds(30g)",
+        "pumpkin seeds(30g)",
         "tender stem broccoli(80g)",
         "kale(80g)",
         "agave(25g)",
@@ -616,4 +616,6 @@ let recipes = [
     },
   ];
 
-  export default recipes
+  const aisles = [{freshProduce: ["onion", "lime", "basil", "rocket"]}, {fridgeyStuff: ["burger patties"]}]
+
+  export default {recipes, aisles}
