@@ -1,57 +1,83 @@
-import { findRenderedComponentWithType } from "react-dom/test-utils";
 import { recipes, aisles } from "./recipes";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function App() {
+  // set state
   const [weeklyRecipes, setWeeklyRecipes] = useState([]);
   const [num, setNum] = useState(0);
 
+  // Populate array of recipes
   function handleClick() {
     const selectedRecipes = [];
-    for (let i = 0; i < num; i++) {
-      selectedRecipes.push(getRandomRecipe(recipes));
+    while (selectedRecipes.length < num) {
+      const randomRecipe = getRandomRecipe(recipes);
+      // Make sure a recipe is not duplicated
+      if (!selectedRecipes.includes(randomRecipe)) {
+        selectedRecipes.push(randomRecipe);
+      }
     }
     setWeeklyRecipes(selectedRecipes);
+  }
+
+  // Randomise function
+  function getRandomRecipe(arr) {
+    const random = Math.floor(Math.random() * arr.length);
+    return arr[random];
   }
 
   function handleChange(event) {
     setNum(event.target.value);
   }
 
-  function getRandomRecipe(arr) {
-    const random = Math.floor(Math.random() * arr.length);
-    return arr[random];
-  }
+  const produce = [];
+  const fridge = [];
+  const pantry = [];
+  const canned = [];
+  const breads = [];
+  const frozen = [];
 
-  let produce = [];
-  let fridge = [];
-  let pantry = [];
-  let canned = [];
-  let breads = [];
-  let frozen = [];
-
-  weeklyRecipes.map((recipe) =>
-    recipe.ingredients.map((ingredient, i) => {
-      if (aisles.freshProduce.includes(ingredient)) {
-        produce.push(ingredient);
-      }
-      if (aisles.fridgeyStuff.includes(ingredient)) {
-        fridge.push(ingredient);
-      }
-      if (aisles.pantry.includes(ingredient)) {
-        pantry.push(ingredient);
-      }
-      if (aisles.canned.includes(ingredient)) {
-        canned.push(ingredient);
-      }
-      if (aisles.breads.includes(ingredient)) {
-        breads.push(ingredient);
-      }
-      if (aisles.frozen.includes(ingredient)) {
-        frozen.push(ingredient);
+  // Push ingredients to aisle arrays
+  weeklyRecipes.forEach((recipe) =>
+    recipe.ingredients.forEach((ingredient) => {
+      for (const aisle in aisles) {
+        if (aisles[aisle].includes(ingredient)) {
+          switch (aisle) {
+            case "freshProduce":
+              addToAisleArray(produce, ingredient);
+              break;
+            case "fridgeyStuff":
+              addToAisleArray(fridge, ingredient);
+              break;
+            case "pantry":
+              addToAisleArray(pantry, ingredient);
+              break;
+            case "canned":
+              addToAisleArray(canned, ingredient);
+              break;
+            case "breads":
+              addToAisleArray(breads, ingredient);
+              break;
+            case "frozen":
+              addToAisleArray(frozen, ingredient);
+              break;
+            default:
+              break;
+          }
+          break;
+        }
       }
     })
   );
+
+  // Function to keep track of ammount of ingredients with key: value pair
+  function addToAisleArray(arr, ingredient) {
+    const index = arr.findIndex((item) => item.name === ingredient);
+    if (index !== -1) {
+      arr[index].count++;
+    } else {
+      arr.push({ name: ingredient, count: 1 });
+    }
+  }
 
   return (
     <div className="App">
@@ -75,28 +101,40 @@ function App() {
       <h2>Shopping List</h2>
       <ul>
         <p>Fresh Produce</p>
-        {produce.map((a, i) => (
-          <li key={i}>{a}</li>
+        {produce.map((item, i) => (
+          <li key={i}>
+            {item.name} - {item.count}
+          </li>
         ))}
         <p>Fridgey Stuff</p>
-        {fridge.map((a, i) => (
-          <li key={i}>{a}</li>
+        {fridge.map((item, i) => (
+          <li key={i}>
+            {item.name} - {item.count}
+          </li>
         ))}
         <p>Pantry</p>
-        {pantry.map((a, i) => (
-          <li key={i}>{a}</li>
+        {pantry.map((item, i) => (
+          <li key={i}>
+            {item.name} - {item.count}
+          </li>
         ))}
         <p>Canned</p>
-        {canned.map((a, i) => (
-          <li key={i}>{a}</li>
+        {canned.map((item, i) => (
+          <li key={i}>
+            {item.name} - {item.count}
+          </li>
         ))}
         <p>Breads</p>
-        {breads.map((a, i) => (
-          <li key={i}>{a}</li>
+        {breads.map((item, i) => (
+          <li key={i}>
+            {item.name} - {item.count}
+          </li>
         ))}
         <p>Frozen</p>
-        {frozen.map((a, i) => (
-          <li key={i}>{a}</li>
+        {frozen.map((item, i) => (
+          <li key={i}>
+            {item.name} - {item.count}
+          </li>
         ))}
       </ul>
     </div>
