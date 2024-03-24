@@ -1,3 +1,4 @@
+import { findRenderedComponentWithType } from "react-dom/test-utils";
 import { recipes, aisles } from "./recipes";
 import { useState } from "react";
 
@@ -22,6 +23,35 @@ function App() {
     return arr[random];
   }
 
+  let produce = [];
+  let fridge = [];
+  let pantry = [];
+  let canned = [];
+  let breads = [];
+  let frozen = [];
+
+  weeklyRecipes.map((recipe) =>
+    recipe.ingredients.map((ingredient, i) => {
+      if (aisles.freshProduce.includes(ingredient)) {
+        produce.push(ingredient);
+      }
+      if (aisles.fridgeyStuff.includes(ingredient)) {
+        fridge.push(ingredient);
+      }
+      if (aisles.pantry.includes(ingredient)) {
+        pantry.push(ingredient);
+      }
+      if (aisles.canned.includes(ingredient)) {
+        canned.push(ingredient);
+      }
+      if (aisles.breads.includes(ingredient)) {
+        breads.push(ingredient);
+      }
+      if (aisles.frozen.includes(ingredient)) {
+        frozen.push(ingredient);
+      }
+    })
+  );
 
   return (
     <div className="App">
@@ -44,17 +74,30 @@ function App() {
       </div>
       <h2>Shopping List</h2>
       <ul>
-        {weeklyRecipes.map((recipe) =>
-          recipe.ingredients.map((ingredient, i) => {
-            // console.log(ingredient);
-            if (aisles.freshProduce.includes(ingredient)) {
-              console.log("success");
-            } else {
-              console.log("fail")
-            }
-            return <li key={i}>{ingredient}</li>;
-          })
-        )}
+        <p>Fresh Produce</p>
+        {produce.map((a, i) => (
+          <li key={i}>{a}</li>
+        ))}
+        <p>Fridgey Stuff</p>
+        {fridge.map((a, i) => (
+          <li key={i}>{a}</li>
+        ))}
+        <p>Pantry</p>
+        {pantry.map((a, i) => (
+          <li key={i}>{a}</li>
+        ))}
+        <p>Canned</p>
+        {canned.map((a, i) => (
+          <li key={i}>{a}</li>
+        ))}
+        <p>Breads</p>
+        {breads.map((a, i) => (
+          <li key={i}>{a}</li>
+        ))}
+        <p>Frozen</p>
+        {frozen.map((a, i) => (
+          <li key={i}>{a}</li>
+        ))}
       </ul>
     </div>
   );
