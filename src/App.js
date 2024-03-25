@@ -1,5 +1,6 @@
 import { recipes, aisles } from "./recipes";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import RecipeList from "./components/list-component/list";
 
 function App() {
   // set state
@@ -99,44 +100,11 @@ function App() {
         <button onClick={handleClick}>Generate Shopping List</button>
       </div>
       <h2>Shopping List</h2>
-      <ul>
-        <p>Fresh Produce</p>
-        {produce.map((item, i) => (
-          <li key={i}>
-            {item.name} - {item.count}
-          </li>
-        ))}
-        <p>Fridgey Stuff</p>
-        {fridge.map((item, i) => (
-          <li key={i}>
-            {item.name} - {item.count}
-          </li>
-        ))}
-        <p>Pantry</p>
-        {pantry.map((item, i) => (
-          <li key={i}>
-            {item.name} - {item.count}
-          </li>
-        ))}
-        <p>Canned</p>
-        {canned.map((item, i) => (
-          <li key={i}>
-            {item.name} - {item.count}
-          </li>
-        ))}
-        <p>Breads</p>
-        {breads.map((item, i) => (
-          <li key={i}>
-            {item.name} - {item.count}
-          </li>
-        ))}
-        <p>Frozen</p>
-        {frozen.map((item, i) => (
-          <li key={i}>
-            {item.name} - {item.count}
-          </li>
-        ))}
-      </ul>
+      <RecipeList title="Fresh produce" items={produce} />
+      <RecipeList title="Fridgey Stuff" items={fridge} />
+      <RecipeList title="Pantry" items={pantry} />
+      <RecipeList title="Canned goods" items={canned} />
+      <RecipeList title="Frozen" items={frozen} />
     </div>
   );
 }
